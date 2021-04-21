@@ -1,9 +1,14 @@
 import Product from "components/Product";
+import { PRODUCTS } from "constants";
 
 const Products = () => {
   return (
     <div>
-      <Product />
+      PRODUCTS.forEach(
+      {(element, index) => {
+        <Product {...element} />;
+      }}
+      )
     </div>
   );
 };
