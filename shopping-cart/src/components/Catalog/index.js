@@ -1,20 +1,22 @@
 import Products from "components/Products";
 import Cart from "components/Cart";
+import { trigger } from "components/events";
 
-const Catalog = ({
-  cart,
-  addToCartHandler,
-  removeFromCartHandler,
-  placeOrderHandler,
-}) => {
+const Catalog = ({ cart }) => {
   return (
     <div className="row">
       <div className="col-8">
-        <Products addToCartHandler={addToCartHandler} />
+        <Products />
       </div>
       <div className="col">
-        <Cart cart={cart} removeFromCartHandler={removeFromCartHandler} />
-        <button onClick={placeOrderHandler}> Order </button>
+        <Cart cart={cart} />
+        <button
+          onClick={() => {
+            trigger("placeOrder");
+          }}
+        >
+          Order
+        </button>
       </div>
     </div>
   );

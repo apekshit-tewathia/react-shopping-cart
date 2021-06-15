@@ -2,8 +2,9 @@ import gold from "assets/images/gold.png";
 import green from "assets/images/green.png";
 import grey from "assets/images/grey.png";
 import silver from "assets/images/silver.png";
+import { trigger } from "components/events";
 
-const Product = ({ product, addToCartHandler, removeFromCartHandler }) => {
+const Product = ({ product, addButton, removeButton }) => {
   const imageMapping = {
     "gold.png": gold,
     "green.png": green,
@@ -12,21 +13,21 @@ const Product = ({ product, addToCartHandler, removeFromCartHandler }) => {
   };
 
   let actionButton = null;
-  if (addToCartHandler) {
+  if (addButton) {
     actionButton = (
       <button
         onClick={() => {
-          addToCartHandler(product.id);
+          trigger("addToCart", { id: product.id });
         }}
       >
         Add To Cart
       </button>
     );
-  } else if (removeFromCartHandler) {
+  } else if (removeButton) {
     actionButton = (
       <button
         onClick={() => {
-          removeFromCartHandler(product.id);
+          trigger("removeFromCart", { id: product.id });
         }}
       >
         Remove

@@ -1,7 +1,8 @@
-import Product from "../Product";
+import Product from "components/Product";
 import _ from "lodash";
+import { trigger } from "components/events";
 
-const OrderSummary = ({ order, bookAgainHandler }) => {
+const OrderSummary = ({ order }) => {
   return (
     <div className="row">
       {order.map((element) => {
@@ -11,7 +12,13 @@ const OrderSummary = ({ order, bookAgainHandler }) => {
           </div>
         );
       })}
-      <button onClick={bookAgainHandler}>Book Again</button>
+      <button
+        onClick={() => {
+          trigger("bookAgain");
+        }}
+      >
+        Book Again
+      </button>
       Total Items: {order.length}
       Total: $
       {_.sumBy(order, (product) => {

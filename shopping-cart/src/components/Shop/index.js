@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { PRODUCTS } from "components/constants";
 import OrderSummary from "components/OrderSummary";
 import Catalog from "components/Catalog";
+import { on } from "components/events";
 
 const Shop = () => {
   const [cart, setCart] = useState([]);
   const [order, setOrder] = useState([]);
+
+  useEffect(() => {
+    on("bookAgain", () => {
+      setOrder([]);
+    });
+
+    on("addToCart", (data) => {
+      addToCart(data.detail.id);
+    });
+
+    on("removeFromCart", (data) => {
+      removeFromCart(data.detail.id);
+    });
+
+    on("placeOrder", () => {
+      setOrder(cart);
+      setCart([]);
+    });
+  });
 
   const addToCart = (id) => {
     const isItemAlreadyPresent = cart.find((product) => {
@@ -29,26 +49,10 @@ const Shop = () => {
     setCart(updatedCart);
   };
 
-  const placeOrder = () => {
-    setOrder(cart);
-    setCart([]);
-  };
-
-  const bookAgain = () => {
-    setOrder([]);
-  };
-
   if (order.length) {
-    return <OrderSummary order={order} bookAgainHandler={bookAgain} />;
+    return <OrderSummary order={order} />;
   } else {
-    return (
-      <Catalog
-        cart={cart}
-        addToCartHandler={addToCart}
-        removeFromCartHandler={removeFromCart}
-        placeOrderHandler={placeOrder}
-      />
-    );
+    return <Catalog cart={cart} />;
   }
 };
 
